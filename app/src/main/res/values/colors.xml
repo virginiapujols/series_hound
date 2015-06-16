@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="series_hound_dark_brown">#835734</color>
+    <color name="series_hound_soft_brown">#b0794c</color>
+    <color name="series_hound_soft_white">#fdfdfd</color>
+    <color name="series_hound_pink">#e2476b</color>
+    <color name="series_hound_blue">#2d285a</color>
+    <color name="series_hound_gray">#878787</color>
+
+</resources>

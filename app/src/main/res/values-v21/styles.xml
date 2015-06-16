@@ -1,0 +1,9 @@
+<resources>
+
+    <!-- Settings activity theme. -->
+    <style name="SettingsTheme" parent="@android:style/Theme.Material.Light.DarkActionBar">
+        <item name="android:colorPrimary">@color/series_hound_soft_brown</item>
+        <item name="android:colorPrimaryDark">@color/series_hound_dark_brown</item>
+    </style>
+
+</resources>

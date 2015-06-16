@@ -1,0 +1,15 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+       <item name="colorPrimaryDark">@color/series_hound_dark_brown</item>
+        <item name="colorPrimary">@color/series_hound_soft_brown</item>
+    </style>
+
+    <style name="ResultListStyle" >
+        <!-- Here it's a stub.  In screens of sufficient width, this style includes modifications
+        for two-pane layout -->
+    </style>
+
+    <style name="SettingsTheme" parent="AppTheme"/>
+</resources>
