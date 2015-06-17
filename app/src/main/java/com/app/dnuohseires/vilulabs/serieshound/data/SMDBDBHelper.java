@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class SMDBDBHelper extends SQLiteOpenHelper {
 
     // If you change the database schema, you must increment the database version.
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 7;
 
     public static final String DATABASE_NAME = "seriesmovies.db";
 
@@ -22,12 +22,6 @@ public class SMDBDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         // Create a table to hold locations.  A location consists of the string supplied in the
         // location setting, the city name, and the latitude and longitude
-        final String SQL_CREATE_GENRE_TABLE = "CREATE TABLE " + SMDBContract.GenreEntry.TABLE_NAME + " (" +
-                SMDBContract.GenreEntry._ID + " INTEGER PRIMARY KEY," +
-                SMDBContract.GenreEntry.COLUMN_TMDB_ID + " INTEGER UNIQUE NOT NULL, " +
-                SMDBContract.GenreEntry.COLUMN_CATEGORY_KEY + " TEXT NOT NULL, " +
-                SMDBContract.GenreEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL" +
-                " );";
 
         final String SQL_CREATE_SMCONTENT_TABLE = "CREATE TABLE " + SMDBContract.SMContentEntry.TABLE_NAME + " (" +
                 // Why AutoIncrement here, and not above?
@@ -71,17 +65,9 @@ public class SMDBDBHelper extends SQLiteOpenHelper {
                 SMDBContract.SMContentEpisodeEntry.COLUMN_NAME + " TEXT NOT NULL, " +
                 SMDBContract.SMContentEpisodeEntry.COLUMN_AIR_DATE + " INTEGER NOT NULL);";
 
-        final String SQL_CREATE_CONTENT_GENRE_TABLE = "CREATE TABLE " + SMDBContract.SMContentGenre.TABLE_NAME + " (" +
-                SMDBContract.SMContentGenre._ID + " INTEGER PRIMARY KEY," +
-                SMDBContract.SMContentGenre.COLUMN_TMDB_GENRE_KEY+ " TEXT NOT NULL, " +
-                SMDBContract.SMContentGenre.COLUMN_CONTENT_KEY + " TEXT NOT NULL" +
-                " );";
-
-        sqLiteDatabase.execSQL(SQL_CREATE_GENRE_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_SMCONTENT_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_SMCONTENT_DETAIL_TABLE);
         sqLiteDatabase.execSQL(SQL_CREATE_SMCONTENT_EPISODE_TABLE);
-        sqLiteDatabase.execSQL(SQL_CREATE_CONTENT_GENRE_TABLE);
     }
 
     @Override
@@ -92,9 +78,8 @@ public class SMDBDBHelper extends SQLiteOpenHelper {
         // It does NOT depend on the version number for your application.
         // If you want to update the schema without wiping data, commenting out the next 2 lines
         // should be your top priority before modifying this method.
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SMDBContract.GenreEntry.TABLE_NAME);
+//        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SMDBContract.GenreEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SMDBContract.SMContentEntry.TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SMDBContract.SMContentGenre.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SMDBContract.SMContentDetailEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SMDBContract.SMContentEpisodeEntry.TABLE_NAME);
         onCreate(sqLiteDatabase);

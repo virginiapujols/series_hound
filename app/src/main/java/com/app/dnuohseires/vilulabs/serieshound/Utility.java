@@ -116,6 +116,21 @@ public class Utility {
         Log.d("NOTIFICATION", "Cancelled Notification:" + id);
     }
 
+    public static long getTodayInMillis () {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        Date today = new Date();
+        String todayFormatted = simpleDateFormat.format(today);
+        long todayMillis = 0;
+        try {
+            todayMillis = simpleDateFormat.parse(todayFormatted).getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return todayMillis;
+    }
+
+
     public static class NotificationReceiver extends BroadcastReceiver {
 
         public static String NOTIFICATION_ID = "notification_id";
@@ -132,20 +147,4 @@ public class Utility {
 
         }
     }
-
-
-    public static long getTodayInMillis () {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-        Date today = new Date();
-        String todayFormatted = simpleDateFormat.format(today);
-        long todayMillis = 0;
-        try {
-            todayMillis = simpleDateFormat.parse(todayFormatted).getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return todayMillis;
-    }
-
 }

@@ -32,31 +32,6 @@ public class SMDBContract {
     public static final String PATH_SMDBCONTENT_DETAIL = "smdb_content_detail";
     public static final String PATH_SMDBCONTENT_EPISODE = "smdb_content_episode";
 
-
-    /* Inner class that defines the table contents of the genre table */
-    public static final class GenreEntry implements BaseColumns {
-
-        public static final Uri CONTENT_URI =
-                BASE_CONTENT_URI.buildUpon().appendPath(PATH_GENRE).build();
-
-        public static final String CONTENT_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_GENRE;
-        public static final String CONTENT_ITEM_TYPE =
-                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_GENRE;
-
-        // Table name
-        public static final String TABLE_NAME = "genre";
-
-        public static final String COLUMN_TMDB_ID = "tmdb_id";
-
-        public static final String COLUMN_DESCRIPTION = "description";
-        public static final String COLUMN_CATEGORY_KEY = "category_id";
-
-        public static Uri buildGenreUri(long id) {
-            return ContentUris.withAppendedId(CONTENT_URI, id);
-        }
-    }
-
     /* Inner class that defines the table contents of the content (series & movies or SM) table */
     public static final class SMContentEntry implements BaseColumns {
 
@@ -166,14 +141,4 @@ public class SMDBContract {
 
     }
 
-    // Relational Table 1...* of Content and Genre
-    public static final class SMContentGenre implements BaseColumns {
-
-        // Table name
-        public static final String TABLE_NAME = "content_genre";
-
-        public static final String COLUMN_TMDB_GENRE_KEY = "tmdb_genre_id";
-        public static final String COLUMN_CONTENT_KEY = "content_id";
-
-    }
 }

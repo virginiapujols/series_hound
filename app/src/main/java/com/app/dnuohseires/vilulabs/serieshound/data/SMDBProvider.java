@@ -19,8 +19,6 @@ public class SMDBProvider extends ContentProvider {
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private SMDBDBHelper mOpenHelper;
 
-    static final int GENRE = 100;
-
     static final int SMCONTENT = 200;
     static final int SMCONTENT_CATEGORY = 201;
     static final int SMCONTENT_CONTENT_MULTIPLE_ID = 204;
@@ -174,9 +172,6 @@ public class SMDBProvider extends ContentProvider {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = SMDBContract.CONTENT_AUTHORITY;
 
-        // For each type of URI you want to add, create a corresponding code.
-        matcher.addURI(authority, SMDBContract.PATH_GENRE, GENRE);
-
         matcher.addURI(authority, SMDBContract.PATH_SMDBCONTENT, SMCONTENT);
         matcher.addURI(authority, SMDBContract.PATH_SMDBCONTENT + "/*", SMCONTENT_CATEGORY);
         matcher.addURI(authority, SMDBContract.PATH_SMDBCONTENT  + "/*/*", SMCONTENT_CONTENT_MULTIPLE_ID);
@@ -201,9 +196,6 @@ public class SMDBProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
         String type="";
         switch (match) {
-            case GENRE:
-                type=SMDBContract.GenreEntry.CONTENT_TYPE;
-                break;
             case SMCONTENT:
                 type= SMDBContract.SMContentEntry.CONTENT_TYPE;
                 break;
@@ -252,17 +244,6 @@ public class SMDBProvider extends ContentProvider {
             case SMCONTENT_CONTENT_EPISODE_ID_SEASON:
                 retCursor = getContentEpisodesByIdAndSeason(uri,projection,sortOrder);
                 break;
-            case GENRE:
-                retCursor = mOpenHelper.getReadableDatabase().query(
-                        SMDBContract.GenreEntry.TABLE_NAME,
-                        projection,
-                        selection,
-                        selectionArgs,
-                        null,
-                        null,
-                        sortOrder
-                );
-                break;
 
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -282,14 +263,6 @@ public class SMDBProvider extends ContentProvider {
                 long _id = db.insert(SMDBContract.SMContentEntry.TABLE_NAME, null, values);
                 if ( _id > 0 )
                     returnUri = SMDBContract.SMContentEntry.buildContentUri(_id);
-                else
-                    throw new android.database.SQLException("Failed to insert row into " + uri);
-                break;
-            }
-            case GENRE: {
-                long _id = db.insert(SMDBContract.GenreEntry.TABLE_NAME, null, values);
-                if ( _id > 0 )
-                    returnUri = SMDBContract.GenreEntry.buildGenreUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
@@ -330,10 +303,6 @@ public class SMDBProvider extends ContentProvider {
                 rowsDeleted = db.delete(
                         SMDBContract.SMContentEntry.TABLE_NAME, selection, selectionArgs);
                 break;
-            case GENRE:
-                rowsDeleted = db.delete(
-                        SMDBContract.GenreEntry.TABLE_NAME, selection, selectionArgs);
-                break;
             case SMCONTENT_CONTENT_EPISODE_ID_SEASON:
                 rowsDeleted = db.delete(
                         SMDBContract.SMContentEpisodeEntry.TABLE_NAME, selection, selectionArgs);
@@ -361,10 +330,6 @@ public class SMDBProvider extends ContentProvider {
                 rowsUpdated = db.update(SMDBContract.SMContentEntry.TABLE_NAME, values, selection,
                         selectionArgs);
                 break;
-            case GENRE:
-                rowsUpdated = db.update(SMDBContract.GenreEntry.TABLE_NAME, values, selection,
-                        selectionArgs);
-                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -380,22 +345,6 @@ public class SMDBProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
         int returnCount = 0;
         switch (match) {
-            case GENRE:
-                db.beginTransaction();
-                returnCount = 0;
-                try {
-                    for (ContentValues value : values) {
-                        long _id = db.insert(SMDBContract.GenreEntry.TABLE_NAME, null, value);
-                        if (_id != -1) {
-                            returnCount++;
-                        }
-                    }
-                    db.setTransactionSuccessful();
-                } finally {
-                    db.endTransaction();
-                }
-                getContext().getContentResolver().notifyChange(uri, null);
-                break;
             case SMCONTENT_CONTENT_EPISODE:
                 db.beginTransaction();
                 returnCount = 0;
@@ -437,7 +386,6 @@ public class SMDBProvider extends ContentProvider {
                         if (_id != -1) {
                             returnCount++;
                         }
-
                     }
                     db.setTransactionSuccessful();
                 } finally {
